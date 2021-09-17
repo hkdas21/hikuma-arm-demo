@@ -28,3 +28,13 @@ jobs:
           region: eastus
           template: ./armtemplates/resourcegroup.json
           deploymentName: rg-Net-Com-Demo
+
+      - name: Deploy Storage Account with ARM Template GitHUb Actions
+        uses: Azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          resourceGroupName: rg-Net-Com-Demo
+          subscriptionId: 3790f202-487d-446b-8808-4e287a18c713
+          template: ./armtemplates/storageaccount.json
+          parameters: ./armtemplates/storageaccount.parameters.json
+          deploymentMode: incremental
