@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter a name for the Storage Account"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter the location where Storage account will be deployed"
+            }
+        },
+        "sku": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter the SKU for the storage account"
+            }
+        }
+
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+       
+       {
+            "name": "[parameters('storageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "tags": {
+                "displayName": "[parameters('storageAccountName')]"
+            },
+            "location": "[parameters('location')]",
+            "kind": "StorageV2",
+            "sku": {
+                "name": "[parameters('sku')]",
+                "tier": "Premium"
+            }
+        }
+    ],
+    "outputs": {}
+}
