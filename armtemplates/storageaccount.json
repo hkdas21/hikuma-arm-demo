@@ -5,28 +5,26 @@
         "storageAccountName": {
             "type": "string",
             "metadata": {
-                "description": "Enter a name for the Storage Account"
+                "description": "Enter the name for storage account"
             }
-        },
+        }, 
         "location": {
             "type": "string",
             "metadata": {
-                "description": "Enter the location where Storage account will be deployed"
+                "description": "Enter the location for the storage account"
             }
-        },
+        }, 
         "sku": {
             "type": "string",
             "metadata": {
-                "description": "Enter the SKU for the storage account"
+                "description": "Enter the SKU for the Storage account"
             }
         }
-
     },
     "functions": [],
     "variables": {},
     "resources": [
-       
-       {
+        {
             "name": "[parameters('storageAccountName')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",

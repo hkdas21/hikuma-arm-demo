@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageAccountName": {
-            "value": "hikuma123" 
+            "value": "hikuma0001"
         },
         "location": {
-            "value": "eastus" 
-        },
+            "value": "eastus"
+        }, 
         "sku": {
-            "value": "Standard_LRS" 
+            "value": "Standard_LRS"
         }
     }
 }
