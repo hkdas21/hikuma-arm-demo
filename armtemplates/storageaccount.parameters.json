@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageAccountName": {
-            "value": "hikuma0001"
+            "value": "hikuma0002"
         },
         "location": {
             "value": "eastus"
