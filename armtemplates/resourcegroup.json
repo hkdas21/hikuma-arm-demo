@@ -1,0 +1,35 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter the name of the resource group"
+            }, 
+            "defaultValue": "rg-GitHubActions"
+        }, 
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter the location where you want to deploy the RG"
+            }, 
+            "defaultValue": "eastus"
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "[parameters('resourceGroupName')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2019-10-01",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+            ],
+            "tags": {
+            }
+        }
+    ],
+    "outputs": {}
+}
