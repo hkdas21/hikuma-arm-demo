@@ -29,6 +29,7 @@ jobs:
 
       - name: Deploy storage account using ARM Template GitHub Actions
         uses: Azure/arm-deploy@v1
+        id: storageAccountDeploy
         with: 
           scope: resourcegroup
           resourceGroupName: rg-GitHubActions
@@ -39,4 +40,6 @@ jobs:
             storageAccountName="hikumastore1"
             location="eastus2"
           deploymentMode: incremental
+
+          -run: echo ${{ steps.storageAccountDeploy.outputs.BlobUri}}
 
