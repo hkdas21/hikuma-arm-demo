@@ -27,7 +27,7 @@ jobs:
           template: ./armtemplates/resourcegroup.json
           deploymentName: rg-GitHubActions
 
-      - name: Deploy RG rg-GitHubActions using ARM Template GitHub Actions
+      - name: Deploy storage account using ARM Template GitHub Actions
         uses: Azure/arm-deploy@v1
         with: 
           scope: resourcegroup
@@ -36,7 +36,7 @@ jobs:
           template: ./armtemplates/storageaccount.json
           parameters:
             ./armtemplates/storageaccount.parameters.json
-            storageAccountName= hikuma002
-            location= "eastus2"
+            storageAccountName="hikumastore1"
+            location="eastus2"
           deploymentMode: incremental
 
