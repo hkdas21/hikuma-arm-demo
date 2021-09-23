@@ -34,6 +34,9 @@ jobs:
           resourceGroupName: rg-GitHubActions
           subscriptionID: 3790f202-487d-446b-8808-4e287a18c713
           template: ./armtemplates/storageaccount.json
-          parameters: ./armtemplates/storageaccount.parameters.json
+          parameters:
+            ./armtemplates/storageaccount.parameters.json
+            storageAccountName= hikuma002
+            location= "eastus2"
           deploymentMode: incremental
 
