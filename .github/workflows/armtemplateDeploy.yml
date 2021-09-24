@@ -5,7 +5,10 @@ on:
     branches:
       - main 
   workflow_dispatch:
-
+env:
+  rgName: rg-GitHubActions
+  location: eastus
+  subscriptionID: 3790f202-487d-446b-8808-4e287a18c713
 jobs:
   armDeploy:
     runs-on: ubuntu-latest
@@ -18,37 +21,37 @@ jobs:
         with : 
           creds : ${{ secrets.AZURECREDENTIALS  }}
 
-      - name: Deploy RG rg-GitHubActions using ARM Template GitHub Actions
+      - name: Deploy RG ${{ env.rgName }} using ARM Template GitHub Actions
         uses: Azure/arm-deploy@v1
         with: 
           scope: subscription
-          subscriptionID: 3790f202-487d-446b-8808-4e287a18c713
-          region: eastus
+          subscriptionID: ${{ env.subscriptionID}}
+          region: ${{ env.location }}
           template: ./armtemplates/resourcegroup.json
-          deploymentName: rg-GitHubActions
+          deploymentName: ${{ env.rgName }}
 
       - name: Deploy storage account using ARM Template GitHub Actions
         uses: Azure/arm-deploy@v1
-        id: storageAccountDeploy
         with: 
           scope: resourcegroup
-          resourceGroupName: rg-GitHubActions
-          subscriptionID: 3790f202-487d-446b-8808-4e287a18c713
+          resourceGroupName: ${{ env.rgName }}
+          subscriptionID: ${{ env.subscriptionID}}
           template: ./armtemplates/storageaccount.json
           parameters:
             ./armtemplates/storageaccount.parameters.json
             storageAccountName="hikumastore1"
-            location="eastus2"
+            location="${{ env.location }}"
           deploymentMode: incremental
 
       - name: Deploy Virtual Machine
         uses: Azure/arm-deploy@v1
         with: 
           scope: resourcegroup
-          resourceGroupName: rg-GitHubActions
-          subscriptionID: 3790f202-487d-446b-8808-4e287a18c713
+          resourceGroupName: ${{ env.rgName }}
+          subscriptionID: ${{ env.subscriptionID}}
           template: ./armtemplates/virtualmachine.json
           parameters:
             adminPassword=${{ secrets.ubuntuVmPassword}}
+            location="${{ env.location }}"
           deploymentMode: incremental
 
