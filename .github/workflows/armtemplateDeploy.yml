@@ -88,6 +88,8 @@ jobs:
           subscriptionID: ${{ env.subscriptionID}}
           region: ${{ env.location }}
           template: ./armtemplates/resourcegroup.json
+          parameters:
+            resourceGroupName=${{ env.rgName }}
           deploymentName: ${{ env.rgName }}
 
       - name: Deploy storage account using ARM Template GitHub Actions
