@@ -6,12 +6,17 @@ on:
       - main 
   workflow_dispatch:
 env:
-  rgName: rg-GitHubActions
-  location: eastus
   subscriptionID: 3790f202-487d-446b-8808-4e287a18c713
+
 jobs:
-  armDeploy:
+  armDeployStaging:
+    name: Deploy to Staging Environment
     runs-on: ubuntu-latest
+    env:
+      rgName: rg-stag-GitHubActions
+      location: eastus
+    environment: 
+      name: staging
 
     steps:
       - uses: actions/checkout@v2
@@ -55,3 +60,55 @@ jobs:
             location="${{ env.location }}"
           deploymentMode: incremental
 
+
+  armDeployProduction:
+    name: Deploy to Production Environment
+    runs-on: ubuntu-latest
+    env:
+      rgName: rg-prod-GitHubActions
+      location: eastus2
+    environment: 
+      name: production
+    needs: armDeployStaging
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name : Azure Login
+        uses : Azure/login@v1
+        with : 
+          creds : ${{ secrets.AZURECREDENTIALS  }}
+
+      - name: Deploy RG ${{ env.rgName }} using ARM Template GitHub Actions
+        uses: Azure/arm-deploy@v1
+        with: 
+          scope: subscription
+          subscriptionID: ${{ env.subscriptionID}}
+          region: ${{ env.location }}
+          template: ./armtemplates/resourcegroup.json
+          deploymentName: ${{ env.rgName }}
+
+      - name: Deploy storage account using ARM Template GitHub Actions
+        uses: Azure/arm-deploy@v1
+        with: 
+          scope: resourcegroup
+          resourceGroupName: ${{ env.rgName }}
+          subscriptionID: ${{ env.subscriptionID}}
+          template: ./armtemplates/storageaccount.json
+          parameters:
+            ./armtemplates/storageaccount.parameters.json
+            storageAccountName="hikumastore2"
+            location="${{ env.location }}"
+          deploymentMode: incremental
+
+      - name: Deploy Virtual Machine
+        uses: Azure/arm-deploy@v1
+        with: 
+          scope: resourcegroup
+          resourceGroupName: ${{ env.rgName }}
+          subscriptionID: ${{ env.subscriptionID}}
+          template: ./armtemplates/virtualmachine.json
+          parameters:
+            adminPassword=${{ secrets.ubuntuVmPassword}}
+            location="${{ env.location }}"
+          deploymentMode: incremental
